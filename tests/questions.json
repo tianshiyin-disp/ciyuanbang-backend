@@ -1,0 +1,57 @@
+{
+  "test_suite": "词元帮标准测试集 v1.0",
+  "version": "1.0",
+  "description": "覆盖代码、翻译、写作、推理、数学等任务类型",
+  "questions": [
+    {
+      "id": 1,
+      "category": "代码",
+      "question": "用 Python 写一个函数，判断一个字符串是否是回文。"
+    },
+    {
+      "id": 2,
+      "category": "代码",
+      "question": "解释 JavaScript 中 == 和 === 的区别，并举例说明。"
+    },
+    {
+      "id": 3,
+      "category": "翻译",
+      "question": "将下面这句话翻译成英文：人工智能正在改变我们的生活方式。"
+    },
+    {
+      "id": 4,
+      "category": "翻译",
+      "question": "将下面这句话翻译成中文：The future belongs to those who believe in the beauty of their dreams."
+    },
+    {
+      "id": 5,
+      "category": "写作",
+      "question": "写一段 100 字左右的营销文案，推广一款智能咖啡机。"
+    },
+    {
+      "id": 6,
+      "category": "写作",
+      "question": "用三句话总结《百年孤独》的核心主题。"
+    },
+    {
+      "id": 7,
+      "category": "推理",
+      "question": "如果所有的猫都喜欢鱼，而咪咪是一只猫，那么咪咪喜欢鱼吗？请说明推理过程。"
+    },
+    {
+      "id": 8,
+      "category": "推理",
+      "question": "一个房间里有一根蜡烛、一盏煤油灯和一个火炉，你只有一根火柴，先点燃哪个？"
+    },
+    {
+      "id": 9,
+      "category": "数学",
+      "question": "一个水池有两个进水管，A管单独注满需要6小时，B管单独注满需要4小时。两管同时开，多久能注满？"
+    },
+    {
+      "id": 10,
+      "category": "数学",
+      "question": "计算：123 × 456 = ？请给出详细步骤。"
+    }
+  ]
+}
