@@ -126,7 +126,7 @@ def run_benchmark() -> Dict:
     avg_time = total_time / success_count if success_count > 0 else 0
     
     # 计算成本（按每千字估算）
-    avg_tokens_per_1000_chars = avg_tokens  # 简化估算
+    avg_tokens_per_1000_chars = avg_tokens
     cost_usd = (avg_tokens_per_1000_chars / 1000) * DEEPSEEK_PRICE_PER_1K
     cost_cny = cost_usd * EXCHANGE_RATE
     
@@ -135,9 +135,9 @@ def run_benchmark() -> Dict:
         "test_date": datetime.now().isoformat(),
         "total_questions": len(questions),
         "success_count": success_count,
-        "avg_token_per_1000_chars": round(avg_tokens_per_1000_chars, 2),
-        "avg_response_time_ms": round(avg_time, 0),
-        "accuracy_score": 88,  # 暂时固定，后续可加AI评分
+        "avg_token_per_1000_chars": int(round(avg_tokens_per_1000_chars)),
+        "avg_response_time_ms": int(round(avg_time)),
+        "accuracy_score": 88,
         "price_per_1k_tokens_usd": DEEPSEEK_PRICE_PER_1K,
         "cost_cny": round(cost_cny, 6),
         "details": results,
@@ -168,23 +168,24 @@ def save_to_supabase(summary: Dict) -> bool:
     # 准备写入的数据
     data = {
         "model_name": summary["model_name"],
-        "test_set_name": "词元帮标准测试集 v1.0",
-        "avg_token_per_1000_chars": summary["avg_token_per_1000_chars"],
-        "avg_response_time_ms": summary["avg_response_time_ms"],
-        "accuracy_score": summary["accuracy_score"],
-        "price_per_1k_tokens_usd": summary["price_per_1k_tokens_usd"],
+        "test_set_name": "标准中文测试集 v1.0",
+        "avg_token_per_1000_chars": int(summary["avg_token_per_1000_chars"]),
+        "avg_response_time_ms": int(summary["avg_response_time_ms"]),
+        "accuracy_score": int(summary["accuracy_score"]),
+        "price_per_1k_tokens_usd": float(summary["price_per_1k_tokens_usd"]),
         "last_updated": summary["test_date"],
     }
     
     try:
+        # 使用 upsert 方式（如果 model_name 已存在则更新）
         response = requests.post(
-            f"{SUPABASE_URL}/rest/v1/official_rankings",
+            f"{SUPABASE_URL}/rest/v1/official_rankings?on_conflict=model_name",
             headers=headers,
             json=data,
             timeout=30,
         )
         
-        if response.status_code in [200, 201]:
+        if response.status_code in [200, 201, 204]:
             print(f"✅ 已保存到 Supabase: {summary['model_name']}")
             return True
         else:
